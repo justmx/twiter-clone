@@ -1,0 +1,65 @@
+rails new twitter-c --database=postgresql --skip-turbolinks
+which psql
+psql
+rake db:create
+
+psql
+\l
+help
+
+
+@@@@@@
+Manually Create Home Controller:
+
+routes.rb    -->     root 'home#index'
+/controllers  -->   home_controller.rb  --->   class HomeController < ApplicationController
+                                               end
+
+/views --> /views/home/index.html.erb
+
+
+2 ways of using react ->   1.  gem 'react-rails' in gemfile
+                              app/assets/javascripts/application.js   --> //= require react   --> react become a globle vairable
+                                                                          //= require react_ujs
+
+
+                                  /views/home/index.html.erb --->       <!-- react_ujs helper  SEO Search Engine Optimization-->
+                                                                            <%= react_component("Main", {}, prerender: true) %>
+
+                           2. nopejs --->
+                                  npm init
+
+                                  npm install webpack -g
+                                  npm install --save babel-loader
+
+
+                                  create a webpack.config.js --> ./
+
+                                  module.exports = {
+                                      entry: "./app/assets/frontend/main.jsx",
+                                      output: {
+                                          path: __dirname + "/app/assets/javascripts",
+                                          filename: "bundle.js"
+                                      },
+                                      resolve: {
+                                        extensions: ['', '.js', '.jsx']
+                                      },
+                                      module: {
+                                          loaders: [
+                                              {
+                                                test: /\.jsx$/,
+                                                loader: "babel-loader",
+                                                query:
+                                                  {
+                                                    presets: ['es2015', 'react']
+                                                  }
+                                             }
+                                          ]
+                                      }
+                                  };
+
+webpack -w -d
+
+gem 'devise'
+
+rails generate devise:install

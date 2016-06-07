@@ -1,42 +1,36 @@
-
-import TweetBox from './components/TweetBox';
-
-import TweetList from './components/TweetList';
-
-let mockTweets = [
-  { id: 1, name: 'xiao ming', body: 'My #firstTweet'},
-  { id: 2, name: 'xiao qiang', body: 'My #secondTweet'},
-  { id: 3, name: 'xiao fang', body: 'My #thirdTweet'}
-]
-
-class Main extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {tweetsList: mockTweets};
-
-  }
-  addTweet(tweetToAdd){
-    let newTweetsList = this.state.tweetsList;
-    newTweetsList.unshift({id: Date.now(),name: 'Guest',body:tweetToAdd });
-    this.setState({tweetsList: newTweetsList});
-  }
+import React from 'react'
+import ReactDom from 'react-dom'
+import { Router, Route, Link } from 'react-router'
+import Index from './components/Index';
+import { browserHistory } from 'react-router'
+import { hashHistory } from 'react-router'
+import Follow from './components/Follow'
+//history={browserHistory}
+class App extends React.Component {
   render() {
       return (
-        <div className ="container">
-          <TweetBox sendTweet={this.addTweet.bind(this)} />
-          <TweetList tweets={this.state.tweetsList}/>
-        </div>
+            <div>
+              {this.props.children}
+            </div>
       );
   }
 }
 
 
 
-
 let documentReady = () => {
-  ReactDOM.render(
-    <Main />, document.getElementById('react')
-  );
+  let reactNode = document.getElementById('react');
+  if(reactNode){
+    ReactDom.render(
+      <Router history={hashHistory} >
+        <Route component={App}>
+          <Route path="/" component={Index} />
+          <Route path="/follow" component={Follow} />
+        </Route>
+      </Router>
+    , reactNode
+    );
+  }
 };
 
 $(documentReady);
